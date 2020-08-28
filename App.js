@@ -1,11 +1,22 @@
 import React from "react";
+import { Button } from "react-native";
 import { Provider } from "react-redux";
 import firebase from "firebase";
+import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 
 import store from "./src/reudx/store";
-import Form from "./src/component/Form";
+import LoginFormScreen from "./src/screens/LoginScreen";
+import EmployeeListScreen from "./src/screens/EmployeeListScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+
+const Stack = createStackNavigator();
 
 export default class App extends React.Component {
+  state = {
+    user: null,
+  };
+
   componentDidMount() {
     var firebaseConfig = {
       apiKey: "AIzaSyBc36Rj9aJAMvEQ4W6j2aV5_gTLC23yf9A",
@@ -18,12 +29,43 @@ export default class App extends React.Component {
     };
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+    firebase.auth().onAuthStateChanged((user) => {
+      this.setState({ user: user });
+    });
   }
 
   render() {
     return (
       <Provider store={store}>
-        <Form />
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login">
+            {!this.state.user ? (
+              <>
+                <Stack.Screen name="Login" component={LoginFormScreen} />
+                <Stack.Screen name="Register" component={RegisterScreen} />
+              </>
+            ) : (
+              <>
+                <Stack.Screen
+                  name="EmployeeList"
+                  component={EmployeeListScreen}
+                  options={({ route }) => {
+                    return {
+                      headerRight: () => (
+                        <Button
+                          title="Log Out"
+                          onPress={() => {
+                            firebase.auth().signOut();
+                          }}
+                        />
+                      ),
+                    };
+                  }}
+                />
+              </>
+            )}
+          </Stack.Navigator>
+        </NavigationContainer>
       </Provider>
     );
   }
