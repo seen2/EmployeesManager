@@ -30,6 +30,8 @@ export default class App extends React.Component {
 }
 
 /*
+I'm being lazy here, so dont't be smart bitch!!!!
+
 <!-- The core Firebase JS SDK is always required and must be listed first -->
 <script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
 
