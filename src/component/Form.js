@@ -1,21 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View, TextInput, Button } from "react-native";
-import firebase from "firebase";
-import Spinner from "./Spinner";
 import { connect } from "react-redux";
 
 import {
   emailChangeAction,
   passwordChangeAction,
   loginUser,
+  createAccount,
 } from "../reudx/actions/authAction";
+import Spinner from "./Spinner";
 
 class Form extends React.Component {
-  state = {
-    email: "",
-    password: "",
-    isLoading: false,
-  };
+  
 
   onEmailChange = (text) => {
     this.props.emailChangeAction(text);
@@ -30,10 +26,18 @@ class Form extends React.Component {
     });
   };
 
+  onSignUp = () => {
+    this.props.createAccount({
+      email: this.props.email,
+      password: this.props.password,
+    });
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.headingContainer}>Manager</Text>
+
         <View style={styles.formContainer}>
           <Text style={styles.textContainer}>Email ID</Text>
           <TextInput
@@ -51,13 +55,23 @@ class Form extends React.Component {
             value={this.props.password}
             secureTextEntry
           />
-          {this.state.isLoading ? (
+          {this.props.loading ? (
             <Spinner size="small" />
           ) : (
             <View style={styles.buttonContainer}>
               <Button title="Login" onPress={() => this.onLogin()} />
             </View>
           )}
+          {this.props.loading ? (
+            <Spinner size="small" />
+          ) : (
+            <View style={styles.buttonContainer}>
+              <Button title="Sign Up" onPress={() => this.onSignUp()} />
+            </View>
+          )}
+          <Text style={styles.errContainer}>
+            {this.props.err ? "Process Denied" : null}
+          </Text>
         </View>
       </View>
     );
@@ -96,12 +110,21 @@ const styles = StyleSheet.create({
   buttonContainer: {
     marginBottom: 20,
   },
+  errContainer: {
+    fontSize: 20,
+    color: "red",
+    textAlign: "center",
+    fontWeight: "bold",
+  },
 });
 
 const mapStateToProps = (state) => {
   return {
     email: state.auth.email,
     password: state.auth.password,
+    err: state.auth.err,
+    user: state.auth.user,
+    loading: state.auth.loading,
   };
 };
 
@@ -109,4 +132,5 @@ export default connect(mapStateToProps, {
   emailChangeAction,
   passwordChangeAction,
   loginUser,
+  createAccount,
 })(Form);

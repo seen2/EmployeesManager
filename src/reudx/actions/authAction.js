@@ -1,5 +1,13 @@
 import firebase from "firebase";
-import { EMAIL_CHANGE, PASSWORD_CHANGE, LOGIN_SUCCESS } from "./actionTypes";
+import {
+  EMAIL_CHANGE,
+  PASSWORD_CHANGE,
+  LOGIN_SENT,
+  LOGIN_SUCCESS,
+  LOGIN_REJECTED,
+  CREATE_ACCOUNT,
+  ACCOUNT_NOT_CREATED,
+} from "./actionTypes";
 
 export const emailChangeAction = (text) => {
   return {
@@ -18,6 +26,7 @@ export const passwordChangeAction = (text) => {
 export const loginUser = ({ email, password }) => {
   return async (dispatch) => {
     try {
+      dispatch({ type: LOGIN_SENT, payload: null });
       const user = await firebase
         .auth()
         .signInWithEmailAndPassword(email, password);
@@ -25,6 +34,31 @@ export const loginUser = ({ email, password }) => {
         type: LOGIN_SUCCESS,
         payload: user,
       });
-    } catch (err) {}
+    } catch (err) {
+      dispatch({
+        type: LOGIN_REJECTED,
+        payload: err,
+      });
+    }
+  };
+};
+
+export const createAccount = ({ email, password }) => {
+  return async (dispatch) => {
+    try {
+      dispatch({ type: LOGIN_SENT, payload: null });
+      const user = await firebase
+        .auth()
+        .createUserWithEmailAndPassword(email, password);
+      dispatch({
+        type: CREATE_ACCOUNT,
+        payload: user,
+      });
+    } catch (err) {
+      dispatch({
+        type: ACCOUNT_NOT_CREATED,
+        payload: err,
+      });
+    }
   };
 };
