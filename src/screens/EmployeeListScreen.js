@@ -1,11 +1,15 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 
 export default class EmployeeListScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Hello</Text>
+        <Button
+          title="Add Employee"
+          onPress={() => this.props.navigation.navigate("Add Employee")}
+        />
+        <Text>Sarah</Text>
       </View>
     );
   }
@@ -14,7 +18,6 @@ export default class EmployeeListScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    margin: 10,
   },
 });

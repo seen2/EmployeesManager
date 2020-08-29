@@ -9,6 +9,7 @@ import store from "./src/reudx/store";
 import LoginFormScreen from "./src/screens/LoginScreen";
 import EmployeeListScreen from "./src/screens/EmployeeListScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
+import AddEmployeeScreen from "./src/screens/AddEmployeeScreen";
 
 const Stack = createStackNavigator();
 
@@ -61,6 +62,10 @@ export default class App extends React.Component {
                       ),
                     };
                   }}
+                />
+                <Stack.Screen
+                  name="Add Employee"
+                  component={AddEmployeeScreen}
                 />
               </>
             )}
