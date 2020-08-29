@@ -18,6 +18,7 @@ export default (state = INITIAL_STATE, action) => {
       return { ...state, shift: action.payload };
     case ADD_EMPLOYEE:
       return { ...state, ...INITIAL_STATE };
+
     default:
       return state;
   }

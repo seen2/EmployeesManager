@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
 
 import AuthReducer from "./authReducer";
-import EmployeeReducer from "./employeeReducer";
+import AddEmployeeReducer from "./addEmployeeReducer";
+import FetchEmployeessReducer from "./fetchEmployeesReducer";
 
 const reducers = combineReducers({
   auth: AuthReducer,
-  employee: EmployeeReducer,
+  employee: AddEmployeeReducer,
+  employeeList: FetchEmployeessReducer,
 });
 
 export default reducers;

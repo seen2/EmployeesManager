@@ -1,16 +1,53 @@
 import React from "react";
-import { View, Text, StyleSheet, Button } from "react-native";
+import { StyleSheet, Button, FlatList, SafeAreaView } from "react-native";
+import { connect } from "react-redux";
 
-export default class EmployeeListScreen extends React.Component {
+import { fetchEmployee } from "../reudx/actions/employeeAction";
+import Item from "../component/EmployeeRow";
+
+const renderItem = ({ item }) => <Item title={item.title} />;
+
+class EmployeeListScreen extends React.Component {
+  state = {
+    employeeList: null,
+  };
+
+  UNSAFE_componentWillMount() {
+    this.props.fetchEmployee();
+    this.transformData(this.props);
+  }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    this.transformData(nextProps);
+  }
+
+  transformData = ({ employees }) => {
+    try {
+      const data = employees;
+      const keys = Object.keys(data);
+      this.setState({
+        employeeList: keys.map((key) => ({ id: key, title: data[key] })),
+      });
+    } catch (err) {
+      alert(err);
+    }
+  };
+
   render() {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Button
           title="Add Employee"
           onPress={() => this.props.navigation.navigate("Add Employee")}
         />
-        <Text>Sarah</Text>
-      </View>
+        {this.state.employeeList && (
+          <FlatList
+            data={this.state.employeeList}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.id}
+          />
+        )}
+      </SafeAreaView>
     );
   }
 }
@@ -21,3 +58,9 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 });
+
+const mapStateToProps = (state) => ({
+  employees: state.employeeList,
+});
+
+export default connect(mapStateToProps, { fetchEmployee })(EmployeeListScreen);

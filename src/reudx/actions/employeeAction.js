@@ -1,6 +1,12 @@
 import firebase from "firebase";
 
-import { NAME_CHANGE, PHONE_CHANGE, SHIFT_CHANGE,ADD_EMPLOYEE } from "./actionTypes";
+import {
+  NAME_CHANGE,
+  PHONE_CHANGE,
+  SHIFT_CHANGE,
+  ADD_EMPLOYEE,
+  EMPLOYEE_FETCH_SUCCESS,
+} from "./actionTypes";
 
 export const onNameChangeAction = (text) => {
   return {
@@ -33,5 +39,17 @@ export const addEmployee = (employee) => {
       .ref(`/users/${currentUser.uid}/employees`)
       .push(employee);
     dispatch({ type: ADD_EMPLOYEE, payload: null });
+  };
+};
+
+export const fetchEmployee = () => {
+  return (dispatch) => {
+    const { currentUser } = firebase.auth();
+    firebase
+      .database()
+      .ref(`/users/${currentUser.uid}/employees`)
+      .on("value", (snapshot) => {
+        dispatch({ type: EMPLOYEE_FETCH_SUCCESS, payload: snapshot.val() });
+      });
   };
 };
