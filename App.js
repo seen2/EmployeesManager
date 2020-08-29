@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "react-native";
+import { Button, YellowBox } from "react-native";
 import { Provider } from "react-redux";
 import firebase from "firebase";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -12,6 +12,7 @@ import RegisterScreen from "./src/screens/RegisterScreen";
 import AddEmployeeScreen from "./src/screens/AddEmployeeScreen";
 
 const Stack = createStackNavigator();
+YellowBox.ignoreWarnings(["Setting a timer"]);
 
 export default class App extends React.Component {
   state = {

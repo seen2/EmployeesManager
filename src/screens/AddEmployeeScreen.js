@@ -6,9 +6,17 @@ import {
   onNameChangeAction,
   onPhoneChangeAction,
   onShiftChangeAction,
+  addEmployee,
 } from "../reudx/actions/employeeAction";
 
 class AddEmployeeScreen extends React.Component {
+  saveEmploye = () => {
+    const { name, phone, shift } = this.props;
+    const newEmployee = { name, phone, shift };
+    this.props.addEmployee(newEmployee);
+    this.props.navigation.navigate("EmployeeList");
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -31,7 +39,7 @@ class AddEmployeeScreen extends React.Component {
           style={styles.inputContainer}
           placeholder="Shift"
         />
-        <Button title="Save" />
+        <Button title="Save" onPress={() => this.saveEmploye()} />
       </View>
     );
   }
@@ -52,7 +60,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = (state) => ({
-  name: state.employee.email,
+  name: state.employee.name,
   phone: state.employee.phone,
   shift: state.employee.shift,
 });
@@ -61,4 +69,5 @@ export default connect(mapStateToProps, {
   onNameChangeAction,
   onPhoneChangeAction,
   onShiftChangeAction,
+  addEmployee,
 })(AddEmployeeScreen);

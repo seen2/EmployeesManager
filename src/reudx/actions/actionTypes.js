@@ -13,3 +13,4 @@ export const ACCOUNT_NOT_CREATED = "ACCOUNT_NOT_CREATED";
 export const NAME_CHANGE = "NAME_CHANGE";
 export const PHONE_CHANGE = "PHONE_CHANGE";
 export const SHIFT_CHANGE = "SHIFT_CHANGE";
+export const ADD_EMPLOYEE = "ADD_EMPLOYEE";
