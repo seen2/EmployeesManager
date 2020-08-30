@@ -10,6 +10,7 @@ import LoginFormScreen from "./src/screens/LoginScreen";
 import EmployeeListScreen from "./src/screens/EmployeeListScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import AddEmployeeScreen from "./src/screens/AddEmployeeScreen";
+import EmployeeDetailsScreen from "./src/screens/EmployeeDetailsScreen";
 
 const Stack = createStackNavigator();
 YellowBox.ignoreWarnings(["Setting a timer"]);
@@ -67,6 +68,10 @@ export default class App extends React.Component {
                 <Stack.Screen
                   name="Add Employee"
                   component={AddEmployeeScreen}
+                />
+                <Stack.Screen
+                  name="Employee Details"
+                  component={EmployeeDetailsScreen}
                 />
               </>
             )}

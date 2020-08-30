@@ -5,13 +5,13 @@ import { connect } from "react-redux";
 import { fetchEmployee } from "../reudx/actions/employeeAction";
 import Item from "../component/EmployeeRow";
 
-const renderItem = ({ item }) => <Item title={item.title} />;
-
 class EmployeeListScreen extends React.Component {
   state = {
     employeeList: null,
   };
-
+  renderItem = ({ item }) => (
+    <Item navigation={this.props.navigation} title={item.title} />
+  );
   UNSAFE_componentWillMount() {
     this.props.fetchEmployee();
     this.transformData(this.props);
@@ -43,7 +43,7 @@ class EmployeeListScreen extends React.Component {
         {this.state.employeeList && (
           <FlatList
             data={this.state.employeeList}
-            renderItem={renderItem}
+            renderItem={this.renderItem}
             keyExtractor={(item) => item.id}
           />
         )}

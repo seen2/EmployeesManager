@@ -1,13 +1,16 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet } from "react-native";
 
-export default ({ title }) => {
+export default (props) => {
   return (
-    <View style={styles.item}>
-      <Text style={styles.title}>{title.name}</Text>
-      <Text>Phone:{title.phone}</Text>
-      <Text>Shift: {title.shift}</Text>
-    </View>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() =>
+        props.navigation.navigate("Employee Details", { title: props.title })
+      }
+    >
+      <Text style={styles.title}>{props.title.name}</Text>
+    </TouchableOpacity>
   );
 };
 
