@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Button } from "react-native";
 
 export default ({ route, navigation }) => {
   return (
@@ -7,6 +7,11 @@ export default ({ route, navigation }) => {
       <Text style={styles.title}>{route.params.title.name}</Text>
       <Text>Phone: {route.params.title.phone}</Text>
       <Text>Shift: {route.params.title.shift}</Text>
+      <Button
+        title="Edit"
+        onPress={() => navigation.navigate("Add Employee")}
+      />
+      <Button title="Delete" color="red" onPress={() => {}} />
     </View>
   );
 };
@@ -17,7 +22,6 @@ const styles = StyleSheet.create({
     padding: 20,
     marginVertical: 5,
     marginHorizontal: 10,
-    flex: 1,
   },
   title: {
     fontSize: 20,
